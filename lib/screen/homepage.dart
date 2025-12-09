@@ -43,7 +43,7 @@ class _HomepageState extends State<Homepage> {
       ),
       body: Column(
         children: [
-          // Daftar Tugas
+        
           Expanded(
             child: user == null
                 ? const Center(child: Text("User belum login"))
@@ -84,7 +84,7 @@ class _HomepageState extends State<Homepage> {
                   ),
           ),
 
-          // Input Tugas
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(

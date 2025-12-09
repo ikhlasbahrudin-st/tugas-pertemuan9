@@ -14,12 +14,39 @@ class _TampilanLoginState extends State<TampilanLogin> {
   final _auth = FirebaseAuth.instance;
   bool _loading = false;
 
+  String? _emailError;
+  String? _passwordError;
+
   Future<void> _login() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Email & Password wajib diisi")),
-      );
-      return;
+    setState(() {
+      _emailError = null;
+      _passwordError = null;
+    });
+
+    // Validasi kosong
+    if (_emailController.text.isEmpty) {
+      setState(() => _emailError = "Email wajib diisi");
+    }
+    if (_passwordController.text.isEmpty) {
+      setState(() => _passwordError = "Password wajib diisi");
+    }
+
+    // Validasi format email
+    if (_emailController.text.isNotEmpty &&
+        !_emailController.text.contains(
+          RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'),
+        )) {
+      setState(() => _emailError = "Format email tidak valid");
+    }
+
+    // Validasi panjang password minimal 6 karakter
+    if (_passwordController.text.isNotEmpty &&
+        _passwordController.text.length < 6) {
+      setState(() => _passwordError = "Password minimal 6 karakter");
+    }
+
+    if (_emailError != null || _passwordError != null) {
+      return; // Stop login jika ada error
     }
 
     setState(() => _loading = true);
@@ -29,6 +56,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      // Jika berhasil, bisa navigasi ke halaman utama
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -49,18 +77,21 @@ class _TampilanLoginState extends State<TampilanLogin> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Email",
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                errorText: _emailError,
               ),
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 12),
             TextField(
               controller: _passwordController,
               obscureText: true,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Password",
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                errorText: _passwordError,
               ),
             ),
             const SizedBox(height: 20),

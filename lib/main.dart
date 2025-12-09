@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// StreamBuilder untuk cek status login
+
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
@@ -45,7 +45,7 @@ class AuthWrapper extends StatelessWidget {
   }
 }
 
-// Halaman Login
+
 class TampilanLogin extends StatefulWidget {
   const TampilanLogin({super.key});
 
@@ -98,7 +98,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
   }
 }
 
-// Halaman TodoList/HomePage
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          // List tugas
+          
           Expanded(
             child: user == null
                 ? const Center(child: Text("User belum login"))
@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                   ),
           ),
 
-          // Input tugas
+          
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
